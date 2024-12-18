@@ -51,6 +51,7 @@ function showQuestion() {
     const button = document.createElement('button');
     button.innerText = answer;
     button.classList.add('answer-btn');
+    button.dataset.correct = index === currentQuestion.correctAnswerIndex; // Отмечаем правильный ответ
     button.addEventListener('click', () => handleAnswer(index));
     answerButtons.appendChild(button);
   });
@@ -59,15 +60,28 @@ function showQuestion() {
 }
 
 // Обработчик выбора ответа
-function handleAnswer(selectedIndex) {
+function handleAnswer(selectedButton, selectedIndex) {
   const currentQuestion = questions[currentQuestionIndex];
+  const buttons = answerButtons.querySelectorAll('.answer-btn');
+  
+  // Подсветка правильных и неправильных ответов
+  buttons.forEach((button) => {
+    const isCorrect = button.dataset.correct === 'true';
+    if (isCorrect) {
+      button.classList.add('correct'); // Подсвечиваем правильный ответ зелёным
+    } else {
+      button.classList.add('incorrect'); // Подсвечиваем остальные красным
+    }
+    button.disabled = true; // Блокируем повторный выбор
+  });
+
+  // Проверяем, правильный ли был выбор
   if (selectedIndex === currentQuestion.correctAnswerIndex) {
     score++;
   }
-  
+
   // Показываем кнопку "Далее"
   nextButton.style.display = 'block';
-  nextButton.disabled = false; // Включаем кнопку "Далее" после ответа
 }
 
 // Переход к следующему вопросу
