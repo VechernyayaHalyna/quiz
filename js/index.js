@@ -52,7 +52,7 @@ function showQuestion() {
     button.innerText = answer;
     button.classList.add('answer-btn');
     button.dataset.correct = index === currentQuestion.correctAnswerIndex; // Отмечаем правильный ответ
-    button.addEventListener('click', () => handleAnswer(index));
+    button.addEventListener('click', () => handleAnswer(button, index));
     answerButtons.appendChild(button);
   });
   
